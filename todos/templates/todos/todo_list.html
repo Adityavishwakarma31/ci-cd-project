@@ -1,0 +1,68 @@
+{% extends "todos/base.html" %}
+{% block title %}Ledger — Your Tasks{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="kicker">Daily Ledger</div>
+    <h1>Your <span>Tasks</span></h1>
+    <div class="stats">
+        <div><strong>{{ total }}</strong>Total</div>
+        <div><strong>{{ pending_count }}</strong>Pending</div>
+        <div><strong>{{ completed_count }}</strong>Done</div>
+    </div>
+</div>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="card">
+    <form class="todo-form" method="post" action="{% url 'todo_list' %}">
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.description }}
+        <div class="form-row">
+            {{ form.priority }}
+            <button type="submit" class="btn">Add Task</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    {% if todos %}
+    <ul class="todo-list">
+        {% for todo in todos %}
+        <li class="todo-item {% if todo.completed %}completed{% endif %}">
+            <form class="checkbox-form" method="post" action="{% url 'toggle_todo' todo.pk %}">
+                {% csrf_token %}
+                <input type="checkbox" class="checkbox" onchange="this.form.submit()" {% if todo.completed %}checked{% endif %}>
+            </form>
+            <div class="todo-content">
+                <div class="todo-title">{{ todo.title }}</div>
+                {% if todo.description %}
+                <div class="todo-description">{{ todo.description }}</div>
+                {% endif %}
+                <div class="todo-meta">
+                    <span class="priority-badge priority-{{ todo.priority }}">{{ todo.get_priority_display }}</span>
+                    <span class="todo-date">{{ todo.created_at|date:"d M, H:i" }}</span>
+                </div>
+            </div>
+            <div class="todo-actions">
+                <a href="{% url 'edit_todo' todo.pk %}" class="icon-btn">Edit</a>
+                <a href="{% url 'delete_todo' todo.pk %}" class="icon-btn danger" onclick="return confirm('Delete this task?')">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="empty-state">
+        <div class="emoji">🗒️</div>
+        <p>No tasks yet. Add your first one above.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

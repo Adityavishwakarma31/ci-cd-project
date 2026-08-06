@@ -1,0 +1,22 @@
+{% extends "todos/base.html" %}
+{% block title %}Edit Task{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="kicker">Editing</div>
+    <h1>Update <span>Task</span></h1>
+</div>
+
+<div class="card">
+    <form class="todo-form" method="post">
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.description }}
+        <div class="form-row">
+            {{ form.priority }}
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="{% url 'todo_list' %}" class="btn btn-secondary" style="text-decoration:none; text-align:center;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
