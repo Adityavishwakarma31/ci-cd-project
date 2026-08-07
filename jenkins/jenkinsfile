@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh '''
                 docker run -d --name testapp -p 8000:8000 adityavishwakarma31/django-todo-app:latest
-                sleep 60
+                sleep 10
                 curl "http://localhost:8000"
                 docker stop testapp
                 docker rm testapp
