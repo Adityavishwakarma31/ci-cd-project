@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+        stage("Fetching") {
+            steps {
+                git branch: 'main', credentialsId: 'github-id', url: 'https://github.com/Adityavishwakarma31/ci-cd-project.git'
+            }
+        }
+        stage("Build") {
+            steps {
+                sh "docker build -t adityavishwakarma31/django-todo-app:latest ."
+            }
+        }
+        stage("Testing") {
+            steps {
+                sh '''
+                docker run -d --name testapp -p 8000:8000 adityavishwakarma31/django-todo-app:latest
+                sleep 10
+                curl "http://localhost:8000"
+                docker stop testapp
+                docker rm testapp
+                '''
+                
+            }
+        }
+    }
+}
