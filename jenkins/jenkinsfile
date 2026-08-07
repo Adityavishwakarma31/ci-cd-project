@@ -9,13 +9,13 @@ pipeline {
         }
         stage("Build") {
             steps {
-                sh "docker build -t django-todo-app:latest ."
+                sh "docker build -t django-todo-app:${BUILD_NUMBER} ."
             }
         }
         stage("Testing") {
             steps {
                 sh '''
-                docker run -d --name testapp -p 8000:8000 django-todo-app:latest
+                docker run -d --name testapp -p 8000:8000 django-todo-app:${BUILD_NUMBER}
                 sleep 10
                 curl "http://localhost:8000"
                 docker stop testapp
