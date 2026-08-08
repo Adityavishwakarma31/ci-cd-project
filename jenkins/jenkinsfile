@@ -32,8 +32,17 @@ pipeline {
                     docker push adityavishwakarma31/django-todo-app:${BUILD_NUMBER}
                     docker logout
                     '''
-            }
-        }
-    }
- }
+              }
+          }
+        stage("Deployment") {
+             steps {
+                 sh '''
+                 cd k8s-manifest
+                 kubectl apply -f deployment.yaml
+                 kubectl apply -f service.yaml
+                 '''
+             }
+         }
+      }
+   }
 }
