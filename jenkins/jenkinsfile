@@ -1,6 +1,5 @@
 pipeline {
     agent { label "ec2-agent" }
-
     stages {
         stage("Fetching") {
             steps {
@@ -35,6 +34,22 @@ pipeline {
               }
             }
           }
+        stage("Update Manifests") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    sh '''
+                    sed -i "s|image: adityavishwakarma31/django-todo-app:.*|image: adityavishwakarma31/django-todo-app:${BUILD_NUMBER}|g" k8s-manifest/deployment.yaml
+
+                    git config user.email "jenkins@ci.local"
+                    git config user.name "Jenkins CI"
+                    git add k8s-manifest/deployment.yaml
+                    git commit -m "Update image tag to ${BUILD_NUMBER}"
+                    git remote set-url origin https://$GIT_USER:$GIT_TOKEN@github.com/Adityavishwakarma31/ci-cd-project.git
+                    git push origin HEAD:main
+                    '''
+                }
+            }
+        }
         stage("Deployment") {
              steps {
                  sh '''
