@@ -47,8 +47,8 @@ pipeline {
                     git config user.name "Jenkins CI"
                     git add deployment.yaml
                     git commit -m "Update image tag to ${BUILD_NUMBER}"
-                    git remote set-url origin https://$GIT_USER:$GIT_TOKEN@github.com/Adityavishwakarma31/ci-cd-project.git
-                    git push origin HEAD:main
+                    git remote set-url origin https://$GIT_USER:$GIT_TOKEN@github.com/Adityavishwakarma31/k8s-manifest.git
+                    git push origin main
                     '''
                 }
             }
