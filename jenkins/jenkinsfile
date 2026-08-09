@@ -41,7 +41,6 @@ pipeline {
                  cd k8s-manifest
                  kubectl apply -f deployment.yaml
                  kubectl apply -f service.yaml
-                 kubectl port-forward svc/todo-service 8000:80 --address=0.0.0.0 &
                  '''
              }
          }
