@@ -40,7 +40,7 @@ pipeline {
                     sh '''
                     rm -rf k8s-manifest
                     git clone https://$GIT_USER:$GIT_TOKEN@github.com/Adityavishwakarma31/k8s-manifest.git
-                    cd ledger-k8s-manifest
+                    cd k8s-manifest
                     sed -i "s|image: adityavishwakarma31/django-todo-app:.*|image: adityavishwakarma31/django-todo-app:${BUILD_NUMBER}|g" k8s-manifest/deployment.yaml
 
                     git config user.email "jenkins@ci.local"
