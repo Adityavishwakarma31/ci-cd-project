@@ -53,7 +53,7 @@ pipeline {
                 }
             }
         }
-        stage("Deployment") {
+        /*stage("Deployment") {
              steps {
                  sh '''
                  cd k8s-manifest
@@ -61,7 +61,7 @@ pipeline {
                  kubectl apply -f service.yaml
                  '''
              }
-         }
+         }*/
       }
    }
 
