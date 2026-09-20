@@ -10,7 +10,10 @@ jobs:
     steps:
        - name: pull repositary
          uses: actions/checkout@v4
+       - name: Get Tag
+         id: vars
+         run: echo ::set-output name=tag::${git describe --abbrev=0}
        - name: Build images
-         run: docker build -t myapp:${{github.ref_name}} .
+         run: docker build -t myapp:${{steps.vars.outputs.tag}} .
        - name: createfolder
          run: docker images
