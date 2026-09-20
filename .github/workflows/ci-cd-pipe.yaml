@@ -11,6 +11,6 @@ jobs:
        - name: pull repositary
          uses: actions/checkout@v4
        - name: Build images
-         run: docker build -t myapp .
+         run: docker build -t myapp:${{github.ref_name}} .
        - name: createfolder
          run: docker images
