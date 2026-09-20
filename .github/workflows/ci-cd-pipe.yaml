@@ -8,9 +8,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: pull repo
-        run: git clone https://github.com/Adityavishwakarma31/ci-cd-project.git
-      - name: Build images
-        run: 
-      - name: list of images
-        run: docker images
+       - name: pull repo
+         uses: actions/checkout@v4
+       - name: Build images
+         run: cd ci-cd-project 
+       - name: createfolder
+         run: mkdir folder2
