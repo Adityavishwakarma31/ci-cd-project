@@ -1,18 +1,22 @@
 name: GitHub Actions Demo
+
 run-name: For-practice
+
 on: [push]
 
-#env:
- # IMAGE_NAME: adityavishwakarma31/django-todo-app
 jobs:
   build:
     runs-on: self-hosted
+
     steps:
-       - name: pull repositary
-         uses: actions/checkout@v4
-       - name: Get Tag
-         run: echo "TAG=$(git describe --abbrev=0)" >> $GITHUB_ENV
-       - name: Build images
-         run: docker build -t myapp:${{env.TAG}} .
-       - name: createfolder
-         run: docker images
+      - name: Pull repository
+        uses: actions/checkout@v4
+
+      - name: Get Version
+        run: echo "VERSION=${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Build image
+        run: docker build -t myapp:${{ env.VERSION }} .
+
+      - name: List Docker images
+        run: docker images
