@@ -2,8 +2,8 @@ name: GitHub Actions Demo
 run-name: For-practice
 on: [push]
 
-env:
-  IMAGE_NAME: adityavishwakarma31/django-todo-app
+#env:
+ # IMAGE_NAME: adityavishwakarma31/django-todo-app
 jobs:
   build:
     runs-on: self-hosted
@@ -11,6 +11,6 @@ jobs:
        - name: pull repo
          uses: actions/checkout@v4
        - name: Build images
-         run: cd ci-cd-project 
+         run: docker build -t myapp .
        - name: createfolder
-         run: mkdir folder2
+         run: docker images
